@@ -1,13 +1,13 @@
-package com.fangpeng.io.bio.chatroom.server;
+package com.fangpeng.io.bio.threadpool.chatroom.server;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author 方鹏
@@ -19,11 +19,9 @@ public class ChatServer {
     private final String QUIT = "quit";
 
     private ServerSocket serverSocket;
-    private ExecutorService executorService;
     private Map<Integer, Writer> connectedClients;
 
     public ChatServer() {
-        executorService = Executors.newFixedThreadPool(10);
         connectedClients = new HashMap<>();
     }
 
@@ -81,7 +79,7 @@ public class ChatServer {
                 // 等待客户端连接
                 Socket socket = serverSocket.accept();
                 // 创建ChatHandler线程
-                executorService.execute(new ChatHandler(this, socket));
+                new Thread(new ChatHandler(this, socket)).start();
             }
 
         } catch (IOException e) {

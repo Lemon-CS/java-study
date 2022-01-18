@@ -25,7 +25,6 @@ public class Server {
                 // 等待客户端连接
                 Socket socket = serverSocket.accept();
                 System.out.println("客户端[" + socket.getPort() + "]已连接");
-                HttpURLConnection conn;
                 BufferedReader reader = new BufferedReader(
                         new InputStreamReader(socket.getInputStream()));
                 BufferedWriter writer = new BufferedWriter(

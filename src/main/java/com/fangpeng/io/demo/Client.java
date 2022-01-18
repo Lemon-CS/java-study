@@ -24,7 +24,6 @@ public class Client {
             socket = new Socket(DEFAULT_SERVER_HOST, DEFAULT_SERVER_PORT);
 
             // 创建IO流
-            HttpURLConnection conn;
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
 
