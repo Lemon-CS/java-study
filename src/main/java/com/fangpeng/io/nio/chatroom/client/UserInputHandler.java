@@ -1,8 +1,11 @@
-package com.fangpeng.io.bio.chatroom.client;
-
+package com.fangpeng.io.nio.chatroom.client;
 
 import java.io.*;
 
+/**
+ * @author 方鹏
+ * @date 2022年01月17日 11:33 下午
+ */
 public class UserInputHandler implements Runnable {
 
     private ChatClient chatClient;
@@ -15,8 +18,7 @@ public class UserInputHandler implements Runnable {
     public void run() {
         try {
             // 等待用户输入消息
-            BufferedReader consoleReader =
-                    new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
             while (true) {
                 String input = consoleReader.readLine();
 

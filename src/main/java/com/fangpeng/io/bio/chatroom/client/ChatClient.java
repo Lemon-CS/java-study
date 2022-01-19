@@ -3,10 +3,6 @@ package com.fangpeng.io.bio.chatroom.client;
 import java.io.*;
 import java.net.Socket;
 
-/**
- * @author 方鹏
- * @date 2022年01月17日 11:33 下午
- */
 public class ChatClient {
 
     private final String DEFAULT_SERVER_HOST = "127.0.0.1";
@@ -14,8 +10,8 @@ public class ChatClient {
     private final String QUIT = "quit";
 
     private Socket socket;
-    private BufferedWriter writer;
     private BufferedReader reader;
+    private BufferedWriter writer;
 
     // 发送消息给服务器
     public void send(String msg) throws IOException {
@@ -51,6 +47,7 @@ public class ChatClient {
     }
 
     public void start() {
+
         try {
             // 创建socket
             socket = new Socket(DEFAULT_SERVER_HOST, DEFAULT_SERVER_PORT);
@@ -79,8 +76,7 @@ public class ChatClient {
     }
 
     public static void main(String[] args) {
-        ChatClient client = new ChatClient();
-        client.start();
+        ChatClient chatClient = new ChatClient();
+        chatClient.start();
     }
-
 }
