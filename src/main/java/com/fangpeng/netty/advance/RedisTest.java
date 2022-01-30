@@ -74,7 +74,7 @@ public class RedisTest {
             ChannelFuture channelFuture = bootstrap.connect("localhost", 6379).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
-            log.error("client error", e);
+            log.error("Client error", e);
         } finally {
             worker.shutdownGracefully();
         }

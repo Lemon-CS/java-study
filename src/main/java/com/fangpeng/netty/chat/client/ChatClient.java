@@ -63,7 +63,7 @@ public class ChatClient {
                             }
                         }
                     });
-                    ch.pipeline().addLast("client handler", new ChannelInboundHandlerAdapter() {
+                    ch.pipeline().addLast("Client handler", new ChannelInboundHandlerAdapter() {
                         // 接收响应消息
                         @Override
                         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -178,7 +178,7 @@ public class ChatClient {
             Channel channel = bootstrap.connect("localhost", 8080).sync().channel();
             channel.closeFuture().sync();
         } catch (Exception e) {
-            log.error("client error", e);
+            log.error("Client error", e);
         } finally {
             group.shutdownGracefully();
         }

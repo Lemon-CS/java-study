@@ -51,7 +51,7 @@ public class Client1 {
             ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 8080).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
-            log.error("client error", e);
+            log.error("Client error", e);
         } finally {
             worker.shutdownGracefully();
         }
