@@ -16,7 +16,7 @@ public class MenuItem extends MenuComponent {
     public void print() {
         //打印菜单项的名称
         for(int i = 0; i < level; i++) {
-            System.out.print("--");
+            System.out.print("--|");
         }
         System.out.println(name);
     }

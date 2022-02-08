@@ -38,7 +38,7 @@ public class Menu extends MenuComponent {
     public void print() {
         //打印菜单名称
         for(int i = 0; i < level; i++) {
-            System.out.print("--");
+            System.out.print("--|");
         }
         System.out.println(name);
 
