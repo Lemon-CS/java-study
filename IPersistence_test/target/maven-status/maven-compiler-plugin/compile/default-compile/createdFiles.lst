@@ -1,1 +1,3 @@
+com/lemon/dao/IUserDao.class
+com/lemon/test/IPersistenceTest.class
 com/lemon/pojo/User.class

@@ -1,8 +1,8 @@
-<mapper namespace="user">
+<mapper namespace="com.lemon.dao.IUserDao">
 <!--    com.lemon.dao.IUserDao-->
 
     <!--sql的唯一标识：namespace.id来组成 ： statementId-->
-    <select id="selectList" resultType="com.lemon.pojo.User" >
+    <select id="findAll" resultType="com.lemon.pojo.User" >
         select * from user
     </select>
 
@@ -12,7 +12,7 @@
         user.setId(1);
         user.setUsername("zhangsan")
     -->
-    <select id="selectOne" resultType="com.lemon.pojo.User" paramterType="com.lemon.pojo.User">
+    <select id="findByCondition" resultType="com.lemon.pojo.User" paramterType="com.lemon.pojo.User">
         select * from user where id = #{id} and username = #{username}
     </select>
 

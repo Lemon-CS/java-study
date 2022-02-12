@@ -63,7 +63,7 @@ public class XMLConfigBuilder {
             xmlMapperBuilder.parse(resourceAsStream);
         }
 
-        return null;
+        return configuration;
     }
 
 }

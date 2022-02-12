@@ -9,6 +9,8 @@ public class User {
 
     private Integer id;
     private String username;
+    private String password;
+    private String birthday;
 
 
     public Integer getId() {
@@ -27,12 +29,29 @@ public class User {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", birthday='" + birthday + '\'' +
                 '}';
     }
-
 }

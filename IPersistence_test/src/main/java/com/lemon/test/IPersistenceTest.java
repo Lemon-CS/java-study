@@ -6,6 +6,7 @@ import com.lemon.sqlSession.SqlSession;
 import com.lemon.sqlSession.SqlSessionFactory;
 import com.lemon.sqlSession.SqlSessionFactoryBuilder;
 import org.dom4j.DocumentException;
+import org.junit.Test;
 
 import java.beans.PropertyVetoException;
 import java.io.InputStream;
@@ -18,24 +19,25 @@ import java.util.List;
  */
 public class IPersistenceTest {
 
+    @Test
     public void test() throws Exception {
         InputStream inputStream = Resources.getResourceAsStream("sqlMapConfig.xml");
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
         // 调用
-        //调用
         User user = new User();
-        user.setId(1);
+        user.setId(2);
         user.setUsername("tom");
-        User user2 = sqlSession.selectOne("user.selectOne", user);
+        /*User user2 = sqlSession.selectOne("user.selectOne", user);
 
         System.out.println(user2);
 
         List<User> users = sqlSession.selectList("user.selectList");
         for (User user1 : users) {
             System.out.println(user1);
-        }
+        }*/
+
     }
 
 }
