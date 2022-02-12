@@ -7,8 +7,14 @@ import com.lemon.utils.GenericTokenParser;
 import com.lemon.utils.ParameterMapping;
 import com.lemon.utils.ParameterMappingTokenHandler;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,13 +39,60 @@ public class SimpleExecutor implements Executor {
 
         // 4. 设置参数
         // 获取到了参数的全路径
+        String paramterType = mappedStatement.getParamterType();
+        Class<?> parameterTypeClass = getClassType(paramterType);
+
+        List<ParameterMapping> parameterMappingList = boundSql.getParameterMappingList();
+        for (int i = 0; i < parameterMappingList.size(); i++) {
+            ParameterMapping parameterMapping = parameterMappingList.get(i);
+            String content = parameterMapping.getContent();
+
+            // 反射
+            Field declaredField = parameterTypeClass.getDeclaredField(content);
+            // 暴力访问
+            declaredField.setAccessible(true);
+
+            Object o = declaredField.get(params[0]);
+
+            preparedStatement.setObject(i + 1, o);
+        }
 
         // 5. 执行sql
+        ResultSet resultSet = preparedStatement.executeQuery();
 
         // 6. 封装返回结果集
+        String resultType = mappedStatement.getResultType();
+        Class<?> resultTypeClass = getClassType(resultType);
+        List<Object> objectList = new ArrayList<>();
 
+        while (resultSet.next()) {
+            Object instance = resultTypeClass.newInstance();
+            //元数据(包含查询结果中的字段名称)
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            for (int i = 1; i < metaData.getColumnCount(); i++) {
+                // 字段名
+                String columnName = metaData.getColumnName(i);
+                // 字段的值
+                Object columnValue = resultSet.getObject(columnName);
+
+                //使用反射或者内省，根据数据库表和实体的对应关系，完成封装
+                PropertyDescriptor propertyDescriptor = new PropertyDescriptor(columnName, resultTypeClass);
+                // 相当于setXxx()方法
+                Method writeMethod = propertyDescriptor.getWriteMethod();
+                writeMethod.invoke(instance, columnValue);
+            }
+            objectList.add(instance);
+        }
+        return (List<E>) objectList;
+    }
+
+    private Class<?> getClassType(String className) throws ClassNotFoundException {
+
+        if (className != null) {
+            Class<?> clazz = Class.forName(className);
+            return clazz;
+        }
         return null;
-
     }
 
     /**
