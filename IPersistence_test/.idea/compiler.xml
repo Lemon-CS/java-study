@@ -9,5 +9,8 @@
         <module name="IPersistence_test" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="IPersistence" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
