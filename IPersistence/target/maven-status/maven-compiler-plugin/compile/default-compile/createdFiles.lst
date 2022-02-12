@@ -1,1 +1,10 @@
+com/lemon/config/XMLConfigBuilder.class
+com/lemon/sqlSession/DefaultSqlSession.class
+com/lemon/sqlSession/SqlSessionFactoryBuilder.class
+com/lemon/sqlSession/SqlSessionFactory.class
+com/lemon/sqlSession/DefaultSqlSessionFactory.class
+com/lemon/pojo/Configuration.class
+com/lemon/sqlSession/SqlSession.class
 com/lemon/io/Resources.class
+com/lemon/config/XMLMapperBuilder.class
+com/lemon/pojo/MappedStatement.class
