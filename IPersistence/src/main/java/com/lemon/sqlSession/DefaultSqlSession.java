@@ -3,6 +3,8 @@ package com.lemon.sqlSession;
 import com.lemon.pojo.Configuration;
 import com.lemon.pojo.MappedStatement;
 
+import java.beans.BeanInfo;
+import java.beans.Introspector;
 import java.lang.reflect.*;
 import java.sql.PreparedStatement;
 import java.util.List;
