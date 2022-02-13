@@ -24,10 +24,10 @@
     </resultMap>
 
 
-<!--    &lt;!&ndash;resultMap：手动来配置实体属性与表字段的映射关系&ndash;&gt;-->
-<!--    <select id="findOrderAndUser" resultMap="orderMap">-->
-<!--        select * from orders o,user u where o.uid = u.id-->
-<!--    </select>-->
+    <!--resultMap：手动来配置实体属性与表字段的映射关系-->
+    <select id="findOrderAndUser" resultMap="orderMap">
+        select * from orders o,user u where o.uid = u.id
+    </select>
 
 
 

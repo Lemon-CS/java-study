@@ -113,7 +113,22 @@ public class MybatisTest {
         for (Order order : orderAndUser) {
             System.out.println(order);
         }
+    }
 
+    @Test
+    public void oneToMany(){
+        List<User> all = userMapper.findAll();
+        for (User user : all) {
+            System.out.println(user);
+        }
+    }
+
+    @Test
+    public void ManyToMany(){
+        List<User> all = userMapper.findAllUserAndRole();
+        for (User user : all) {
+            System.out.println(user);
+        }
     }
 
 }

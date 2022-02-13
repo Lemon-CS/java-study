@@ -46,7 +46,6 @@
             and username = #{username}
         </if>
         </where>
-
     </select>
 
     <!--多值查询：演示foreach-->
@@ -57,7 +56,6 @@
                 #{id}
             </foreach>
         </where>
-
     </select>
 
 
