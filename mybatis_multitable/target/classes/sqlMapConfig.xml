@@ -25,9 +25,9 @@
     </typeAliases>
 
     <plugins>
- <!--       <plugin interceptor="com.lemon.plugin.MyPlugin">
-            <property name="name" value="tom"/>
-        </plugin>-->
+        <plugin interceptor="com.lemon.plugin.MyPlugin">
+            <property name="name" value="kobe"/>
+        </plugin>
 
         <plugin interceptor="com.github.pagehelper.PageHelper">
             <property name="dialect" value="mysql"/>
