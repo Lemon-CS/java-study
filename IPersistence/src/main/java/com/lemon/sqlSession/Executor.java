@@ -14,4 +14,8 @@ public interface Executor {
 
     public <E> List<E> query(Configuration configuration, MappedStatement mappedStatement, Object... params) throws Exception;
 
+    public Integer update(Configuration configuration, MappedStatement mappedStatement, Object[] params) throws Exception;
+
+    public Integer delete(Configuration configuration, MappedStatement mappedStatement, Object[] params) throws Exception;
+
 }

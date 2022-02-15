@@ -31,7 +31,18 @@ public class XMLMapperBuilder {
 
         String namespace = rootElement.attributeValue("namespace");
 
-        List<Element> list = rootElement.selectNodes("//select");
+        List<Element> selectList = rootElement.selectNodes("//select");
+        foreachElement(namespace, selectList);
+
+        List updateList = rootElement.selectNodes("//update");
+        foreachElement(namespace, updateList);
+
+        List deleteList = rootElement.selectNodes("//delete");
+        foreachElement(namespace, deleteList);
+
+    }
+
+    private void foreachElement(String namespace, List<Element> list) {
         for (Element element : list) {
             String id = element.attributeValue("id");
             String resultType = element.attributeValue("resultType");
@@ -47,7 +58,6 @@ public class XMLMapperBuilder {
             String key = namespace + "." + id;
             configuration.getMappedStatementMap().put(key, mappedStatement);
         }
-
     }
 
 }

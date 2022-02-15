@@ -42,6 +42,22 @@ public class DefaultSqlSession implements SqlSession {
     }
 
     @Override
+    public Integer update(String statementId, Object... params) throws Exception {
+        SimpleExecutor simpleExecutor = new SimpleExecutor();
+        MappedStatement mappedStatement = configuration.getMappedStatementMap().get(statementId);
+        Integer i = simpleExecutor.update(configuration, mappedStatement, params);
+        return i;
+    }
+
+    @Override
+    public Integer delete(String statementId, Object... params) throws Exception {
+        SimpleExecutor simpleExecutor = new SimpleExecutor();
+        MappedStatement mappedStatement = configuration.getMappedStatementMap().get(statementId);
+        Integer i = simpleExecutor.delete(configuration, mappedStatement, params);
+        return i;
+    }
+
+    @Override
     public <T> T getMapper(Class<?> mapperClass) {
 
         // 使用JDK动态代理来为Dao接口生成代理对象，并返回
@@ -64,6 +80,16 @@ public class DefaultSqlSession implements SqlSession {
                         if (returnType instanceof ParameterizedType) {
                             List<Object> objectList = selectList(statementId, args);
                             return objectList;
+                        }
+
+                        MappedStatement mappedStatement = configuration.getMappedStatementMap().get(statementId);
+
+                        String sql = mappedStatement.getSql();
+
+                        if (sql.startsWith("update")) {
+                            return update(statementId, args);
+                        } else if (sql.startsWith("delete")) {
+                            return delete(statementId, args);
                         }
 
                         return selectOne(statementId, args);
