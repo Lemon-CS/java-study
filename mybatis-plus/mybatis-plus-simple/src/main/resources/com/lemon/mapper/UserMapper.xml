@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lemon.mapper.UserMapper">
+    <insert id="insert" parameterType="com.lemon.pojo.User">
+        insert into ....
+    </insert>
+
+    <!--查询所有用户信息-->
+    <select id="findAll" resultType="com.lemon.pojo.User">
+        select * from user
+    </select>
+
+
+</mapper>
