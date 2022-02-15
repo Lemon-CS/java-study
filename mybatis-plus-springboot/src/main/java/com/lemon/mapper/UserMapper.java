@@ -12,11 +12,9 @@ import java.util.List;
  */
 public interface UserMapper extends BaseMapper<User> {
 
-    /*  查询所有用户  */
-    public List<User> findAll();
-
-
-    /*  添加用户  */
-    public int insert(User user);
+    /*
+        自定义findById方法
+     */
+    public User findById(Long id);
 
 }

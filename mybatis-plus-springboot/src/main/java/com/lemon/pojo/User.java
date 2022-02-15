@@ -1,6 +1,6 @@
 package com.lemon.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +11,21 @@ import lombok.NoArgsConstructor;
 @TableName("user")
 public class User {
 
+    @TableId(type = IdType.AUTO)
     private Long id;
+
+    @TableField(select = true) //查询的时候，不返回该字段的值
     private String name;
     private Integer age;
-    private String email;
+
+    @TableField(value = "email") // 解决字段名不一致问题
+    private String mail;
+
+    @TableField(exist = false)  // 该字段在数据库表中不存在
+    private String address;
+
+    /*@Version
+    @TableField(fill = FieldFill.INSERT)
+    private Integer version;*/
 
 }
