@@ -25,6 +25,15 @@ class MybatisPlusSpringbootApplicationTests {
     private UserMapper userMapper;
 
     @Test
+    public void testFindAll(){
+
+        List<User> all = userMapper.findAll();
+        for (User user : all) {
+            System.out.println(user);
+        }
+    }
+
+    @Test
     void testSelect() {
         List<User> userList = userMapper.selectList(null);
         for (User user : userList) {
@@ -54,6 +63,7 @@ class MybatisPlusSpringbootApplicationTests {
         User user = new User();
         user.setId(6L);
         user.setAge(24);
+        user.setVersion(1); //获取到version为1
 
         int i = userMapper.updateById(user);
         System.out.println(i);
@@ -145,7 +155,7 @@ class MybatisPlusSpringbootApplicationTests {
      */
     @Test
     public void testSelectById() {
-        User user = userMapper.selectById(2L);
+        User user = userMapper.selectById(6L);
         System.out.println(user);
     }
 

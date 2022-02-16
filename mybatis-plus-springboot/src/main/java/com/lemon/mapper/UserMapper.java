@@ -10,7 +10,7 @@ import java.util.List;
  * @Author : Lemon-CS
  * @Date : 2022年02月15日 6:22 下午
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper extends MyBaseMapper<User> {
 
     /*
         自定义findById方法

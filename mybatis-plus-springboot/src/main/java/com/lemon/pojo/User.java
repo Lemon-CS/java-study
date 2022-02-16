@@ -1,6 +1,7 @@
 package com.lemon.pojo;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor //生成无参构造
 @AllArgsConstructor // 生成全参构造
 @TableName("user")
-public class User {
+public class User extends Model<User> {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -24,8 +25,11 @@ public class User {
     @TableField(exist = false)  // 该字段在数据库表中不存在
     private String address;
 
-    /*@Version
+    @Version
     @TableField(fill = FieldFill.INSERT)
-    private Integer version;*/
+    private Integer version;
+
+    @TableLogic
+    private Integer deleted;
 
 }
