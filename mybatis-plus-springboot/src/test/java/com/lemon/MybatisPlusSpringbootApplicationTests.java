@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -211,6 +212,105 @@ class MybatisPlusSpringbootApplicationTests {
         System.out.println("总页数" + userIPage.getPages());
 
         System.out.println("分页数据" + userIPage.getRecords());
+
+    }
+
+    /*
+        测试自定义方法findById
+     */
+
+    @Test
+    public void findById(){
+        User user = userMapper.findById(12L);
+        System.out.println(user);
+    }
+
+
+    /*
+        测试条件构建器 allEq
+     */
+    @Test
+    public void testAllEq() {
+
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+
+        // 构建map
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "jack");
+        map.put("age", null);
+
+        //  WHERE name = ? AND age IS NULL
+        // queryWrapper.allEq(map);
+
+        // WHERE name = ?
+        //  queryWrapper.allEq(map, false);
+
+        // SELECT id,name,age,email AS mail,user_name FROM tb_user
+        // queryWrapper.allEq(false, map, true);
+
+        // WHERE age IS NULL
+        queryWrapper.allEq((k,v) -> k.equals("name"),map);
+
+        List<User> users = userMapper.selectList(queryWrapper);
+        for (User user : users) {
+            System.out.println(user);
+        }
+
+    }
+
+    /*
+        基本比较操作
+     */
+    @Test
+    public void testWrapper(){
+
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+
+        // WHERE email = ? AND age >= ? AND name IN (?,?)
+        queryWrapper.eq("email","zimu@lagou.com")
+                .ge("age",20)
+                .in("name","Jack","Tom");
+
+        List<User> users = userMapper.selectList(queryWrapper);
+        for (User user : users) {
+            System.out.println(user);
+        }
+    }
+
+    /*
+        模糊查询
+    */
+    @Test
+    public void testWrapperLike(){
+
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+
+        queryWrapper.like("name","m");
+
+        List<User> users = userMapper.selectList(queryWrapper);
+        for (User user : users) {
+            System.out.println(user);
+        }
+
+    }
+
+    /*
+        排序查询、逻辑查询、select
+    */
+    @Test
+    public void testWrapper2(){
+
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+
+        // queryWrapper.orderByDesc("age");
+
+        queryWrapper.eq("name","jack").or().eq("age",28).select("name");
+
+
+        List<User> users = userMapper.selectList(queryWrapper);
+        for (User user : users) {
+            System.out.println(user);
+        }
 
     }
 
