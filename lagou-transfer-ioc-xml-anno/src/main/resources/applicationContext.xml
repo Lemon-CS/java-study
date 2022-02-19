@@ -27,6 +27,13 @@
         <property name="password" value="${jdbc.password}"/>
     </bean>
 
+    <!--
+        lazy-init：延迟加载，true代表延迟，false代表立即加载，默认是false
+    -->
+    <bean id="lazyResult" class="com.lagou.edu.pojo.Result"  init-method="initMethod"/>
 
+    <bean id="companyBean" class="com.lagou.edu.factory.CompanyFactoryBean">
+        <property name="companyInfo" value="拉勾,中关村,500"></property>
+    </bean>
 
 </beans>

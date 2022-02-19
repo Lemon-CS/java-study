@@ -26,12 +26,8 @@ public class IoCTest {
         // 通过读取classpath下的xml文件来启动容器（xml模式SE应用下推荐）
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
 
-        // 不推荐使用
-        //ApplicationContext applicationContext1 = new FileSystemXmlApplicationContext("文件系统的绝对路径");
-
-
-        // 第一次getBean该对象
-        Object accountPojo = applicationContext.getBean("accountPojo");
+        Object companyBean = applicationContext.getBean("companyBean");
+        System.out.println("companyBean------" + companyBean);
 
         AccountDao accountDao = (AccountDao) applicationContext.getBean("accountDao");
 
@@ -46,9 +42,17 @@ public class IoCTest {
 
         applicationContext.close();
 
+    }
 
-
-
+    /**
+     * 测试bean的lazy-init属性
+     */
+    @Test
+    public void testBeanLazy(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        Object lazyResult = applicationContext.getBean("lazyResult");
+        System.out.println(lazyResult);
+        applicationContext.close();
     }
 
 }
