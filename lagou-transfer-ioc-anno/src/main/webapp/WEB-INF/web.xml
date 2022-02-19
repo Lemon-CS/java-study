@@ -6,10 +6,15 @@
   <display-name>Archetype Created Web Application</display-name>
 
 
-  <!--配置Spring ioc容器的配置文件-->
+  <!--告诉ContextloaderListener知道我们使用注解的方式启动ioc容器-->
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
+  <!--配置启动类的全限定类名-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
+    <param-value>com.lagou.edu.SpringConfig</param-value>
   </context-param>
   <!--使用监听器启动Spring的IOC容器-->
   <listener>
