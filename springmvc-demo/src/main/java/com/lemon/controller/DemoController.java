@@ -29,6 +29,19 @@ import java.util.UUID;
 @RequestMapping("/demo")
 public class DemoController {
 
+
+    // SpringMVC的异常处理机制（异常处理器）
+    // 注意：写在这里只会对当前controller类生效
+    @ExceptionHandler(ArithmeticException.class)
+    public void handleException(ArithmeticException exception,HttpServletResponse response) {
+        // 异常处理逻辑
+        try {
+            response.getWriter().write(exception.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * url: http://localhost:8080/demo/handle01
      */
