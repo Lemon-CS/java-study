@@ -3,6 +3,7 @@ package com.lemon.springboot_demo1;
 import com.lemon.controller.HelloController;
 import com.lemon.pojo.MyProperties;
 import com.lemon.pojo.Person;
+import com.lemon.pojo.SimpleBean;
 import com.lemon.pojo.Student;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -87,5 +88,16 @@ class SpringbootDemo1ApplicationTests {
         System.out.println(description);
     }
 
+    /*
+     测试自定义starter
+    */
+   @Autowired
+    private SimpleBean simpleBean;
+
+
+    @Test
+    void starterTest() {
+        System.out.println(simpleBean.toString());
+    }
 
 }
