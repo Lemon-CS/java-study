@@ -1,10 +1,19 @@
 package server;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
 
 /**
  * @Description: Minicat的主类
@@ -15,6 +24,8 @@ public class Bootstrap {
 
     /**定义socket监听的端口号*/
     private int port = 8080;
+
+    private Map<String,HttpServlet> servletMap = new HashMap<String,HttpServlet>();
 
     public int getPort() {
         return port;
@@ -28,6 +39,29 @@ public class Bootstrap {
      * Minicat启动需要初始化展开的一些操作
      */
     public void start() throws Exception {
+
+        // 加载解析相关的配置，web.xml
+        loadServlet();
+
+        // 定义一个线程池
+        int corePoolSize = 10;
+        int maximumPoolSize =50;
+        long keepAliveTime = 100L;
+        TimeUnit unit = TimeUnit.SECONDS;
+        BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(50);
+        ThreadFactory threadFactory = Executors.defaultThreadFactory();
+        RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
+
+
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                corePoolSize,
+                maximumPoolSize,
+                keepAliveTime,
+                unit,
+                workQueue,
+                threadFactory,
+                handler
+        );
 
         /*
             完成Minicat 1.0版本
@@ -51,7 +85,7 @@ public class Bootstrap {
          * 完成Minicat 2.0版本
          * 需求：封装Request和Response对象，返回html静态资源文件
          */
-        ServerSocket serverSocket = new ServerSocket(port);
+        /*ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("=====>>>Minicat start on port：" + port);
 
         while (true) {
@@ -65,8 +99,68 @@ public class Bootstrap {
 
             response.outputHtml(request.getUrl());
             socket.close();
+        }*/
+
+        /**
+         * 完成Minicat 3.0版本
+         * 需求：可以请求动态资源（Servlet）
+         */
+        ServerSocket serverSocket = new ServerSocket(port);
+        System.out.println("=====>>>Minicat start on port：" + port);
+
+        while (true) {
+
+            Socket socket = serverSocket.accept();
+            RequestProcessor requestProcessor = new RequestProcessor(socket,servletMap);
+            //requestProcessor.start();
+            threadPoolExecutor.execute(requestProcessor);
+
         }
 
+    }
+
+    /**
+     * 加载解析web.xml，初始化Servlet
+     */
+    private void loadServlet() {
+        InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("web.xml");
+        SAXReader saxReader = new SAXReader();
+
+        try {
+            Document document = saxReader.read(resourceAsStream);
+            Element rootElement = document.getRootElement();
+
+            List<Element> selectNodes = rootElement.selectNodes("//servlet");
+
+            for (int i = 0; i < selectNodes.size(); i++) {
+
+                Element element = selectNodes.get(i);
+
+                // <servlet-name>lagou</servlet-name>
+                Element servletnameElement = (Element) element.selectSingleNode("servlet-name");
+                String servletName = servletnameElement.getStringValue();
+                // <servlet-class>server.LagouServlet</servlet-class>
+                Element servletclassElement = (Element) element.selectSingleNode("servlet-class");
+                String servletClass = servletclassElement.getStringValue();
+
+
+                // 根据servlet-name的值找到url-pattern
+                Element servletMapping = (Element) rootElement.selectSingleNode("/web-app/servlet-mapping[servlet-name='" + servletName + "']");
+                // /lagou
+                String urlPattern = servletMapping.selectSingleNode("url-pattern").getStringValue();
+                servletMap.put(urlPattern, (HttpServlet) Class.forName(servletClass).newInstance());
+
+            }
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
 
